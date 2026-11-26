@@ -33,6 +33,14 @@ angular.module('ajoslin.promise-tracker')
         }
         return $q.reject(response);
       }
+      responseError: function(response) {
+        if (response.config && response.config.$promiseTrackerDeferred) {
+          angular.forEach(response.config.$promiseTrackerDeferred, function(deferred) {
+            deferred.reject(response);
+          });
+        }
+        return $q.reject(response);
+      }
     };
   }]);
 }]);
